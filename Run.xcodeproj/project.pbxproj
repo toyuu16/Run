@@ -11,14 +11,15 @@
 		62C3BFE626FB8D47001EB074 /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62C3BFE526FB8D47001EB074 /* GameViewController.swift */; };
 		62C3BFE926FB8D47001EB074 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 62C3BFE726FB8D47001EB074 /* Main.storyboard */; };
 		62C3BFEC26FB8D47001EB074 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 62C3BFEA26FB8D47001EB074 /* LaunchScreen.storyboard */; };
-		62C3BFEE26FB8D47001EB074 /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = 62C3BFD826FB8D46001EB074 /* Actions.sks */; };
 		62C3BFEF26FB8D47001EB074 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 62C3BFD926FB8D46001EB074 /* GameScene.sks */; };
 		62C3BFF026FB8D47001EB074 /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62C3BFDA26FB8D46001EB074 /* GameScene.swift */; };
 		62C3BFF126FB8D47001EB074 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 62C3BFDB26FB8D47001EB074 /* Assets.xcassets */; };
+		62C3BFF926FB8F09001EB074 /* sabo.png in Resources */ = {isa = PBXBuildFile; fileRef = 62C3BFF826FB8F09001EB074 /* sabo.png */; };
+		62C3BFFB26FB8F10001EB074 /* sakana.png in Resources */ = {isa = PBXBuildFile; fileRef = 62C3BFFA26FB8F10001EB074 /* sakana.png */; };
+		62C3BFFD26FB8F16001EB074 /* saru.png in Resources */ = {isa = PBXBuildFile; fileRef = 62C3BFFC26FB8F16001EB074 /* saru.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		62C3BFD826FB8D46001EB074 /* Actions.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Actions.sks; sourceTree = "<group>"; };
 		62C3BFD926FB8D46001EB074 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
 		62C3BFDA26FB8D46001EB074 /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
 		62C3BFDB26FB8D47001EB074 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -28,6 +29,9 @@
 		62C3BFE826FB8D47001EB074 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		62C3BFEB26FB8D47001EB074 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		62C3BFED26FB8D47001EB074 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		62C3BFF826FB8F09001EB074 /* sabo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sabo.png; sourceTree = "<group>"; };
+		62C3BFFA26FB8F10001EB074 /* sakana.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sakana.png; sourceTree = "<group>"; };
+		62C3BFFC26FB8F16001EB074 /* saru.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = saru.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -44,6 +48,7 @@
 		62C3BFD226FB8D45001EB074 = {
 			isa = PBXGroup;
 			children = (
+				62C3BFF726FB8E88001EB074 /* Resources */,
 				62C3BFD726FB8D45001EB074 /* Run Shared */,
 				62C3BFE226FB8D47001EB074 /* Run iOS */,
 				62C3BFE126FB8D47001EB074 /* Products */,
@@ -53,7 +58,6 @@
 		62C3BFD726FB8D45001EB074 /* Run Shared */ = {
 			isa = PBXGroup;
 			children = (
-				62C3BFD826FB8D46001EB074 /* Actions.sks */,
 				62C3BFD926FB8D46001EB074 /* GameScene.sks */,
 				62C3BFDA26FB8D46001EB074 /* GameScene.swift */,
 				62C3BFDB26FB8D47001EB074 /* Assets.xcassets */,
@@ -79,6 +83,16 @@
 				62C3BFED26FB8D47001EB074 /* Info.plist */,
 			);
 			path = "Run iOS";
+			sourceTree = "<group>";
+		};
+		62C3BFF726FB8E88001EB074 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				62C3BFFC26FB8F16001EB074 /* saru.png */,
+				62C3BFFA26FB8F10001EB074 /* sakana.png */,
+				62C3BFF826FB8F09001EB074 /* sabo.png */,
+			);
+			path = Resources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -139,8 +153,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				62C3BFEF26FB8D47001EB074 /* GameScene.sks in Resources */,
+				62C3BFF926FB8F09001EB074 /* sabo.png in Resources */,
+				62C3BFFB26FB8F10001EB074 /* sakana.png in Resources */,
+				62C3BFFD26FB8F16001EB074 /* saru.png in Resources */,
 				62C3BFE926FB8D47001EB074 /* Main.storyboard in Resources */,
-				62C3BFEE26FB8D47001EB074 /* Actions.sks in Resources */,
 				62C3BFEC26FB8D47001EB074 /* LaunchScreen.storyboard in Resources */,
 				62C3BFF126FB8D47001EB074 /* Assets.xcassets in Resources */,
 			);
@@ -298,13 +314,14 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 44X7S6SH89;
 				INFOPLIST_FILE = "Run iOS/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = Run.Run;
+				PRODUCT_BUNDLE_IDENTIFIER = Run2021;
 				PRODUCT_NAME = Run;
 				SDKROOT = iphoneos;
 				SWIFT_VERSION = 5.0;
@@ -318,13 +335,14 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 44X7S6SH89;
 				INFOPLIST_FILE = "Run iOS/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = Run.Run;
+				PRODUCT_BUNDLE_IDENTIFIER = Run2021;
 				PRODUCT_NAME = Run;
 				SDKROOT = iphoneos;
 				SWIFT_VERSION = 5.0;
