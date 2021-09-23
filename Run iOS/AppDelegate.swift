@@ -2,8 +2,6 @@
 //  AppDelegate.swift
 //  Run iOS
 //
-//  Created by 田中祐輔 on 2021/09/23.
-//
 
 import UIKit
 
