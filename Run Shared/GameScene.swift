@@ -2,142 +2,149 @@
 //  GameScene.swift
 //  Run Shared
 //
-//  Created by 田中祐輔 on 2021/09/23.
-//
-
 import SpriteKit
+import GameplayKit
 
 class GameScene: SKScene {
     
     
-    fileprivate var label : SKLabelNode?
-    fileprivate var spinnyNode : SKShapeNode?
-
+    var mainCharNode:SKSpriteNode = SKSpriteNode(imageNamed: "saru.png")
+    let gameOverLabel = SKLabelNode()
     
-    class func newGameScene() -> GameScene {
-        // Load 'GameScene.sks' as an SKScene.
-        guard let scene = SKScene(fileNamed: "GameScene") as? GameScene else {
-            print("Failed to load GameScene.sks")
-            abort()
-        }
-        
-        // Set the scale mode to scale to fit the window
-        scene.scaleMode = .aspectFill
-        
-        return scene
-    }
-    
-    func setUpScene() {
-        // Get label node from scene and store it for use later
-        self.label = self.childNode(withName: "//helloLabel") as? SKLabelNode
-        if let label = self.label {
-            label.alpha = 0.0
-            label.run(SKAction.fadeIn(withDuration: 2.0))
-        }
-        
-        // Create shape node to use during mouse interaction
-        let w = (self.size.width + self.size.height) * 0.05
-        self.spinnyNode = SKShapeNode.init(rectOf: CGSize.init(width: w, height: w), cornerRadius: w * 0.3)
-        
-        if let spinnyNode = self.spinnyNode {
-            spinnyNode.lineWidth = 4.0
-            spinnyNode.run(SKAction.repeatForever(SKAction.rotate(byAngle: CGFloat(Double.pi), duration: 1)))
-            spinnyNode.run(SKAction.sequence([SKAction.wait(forDuration: 0.5),
-                                              SKAction.fadeOut(withDuration: 0.5),
-                                              SKAction.removeFromParent()]))
-            
-            #if os(watchOS)
-                // For watch we just periodically create one of these and let it spin
-                // For other platforms we let user touch/mouse events create these
-                spinnyNode.position = CGPoint(x: 0.0, y: 0.0)
-                spinnyNode.strokeColor = SKColor.red
-                self.run(SKAction.repeatForever(SKAction.sequence([SKAction.wait(forDuration: 2.0),
-                                                                   SKAction.run({
-                                                                       let n = spinnyNode.copy() as! SKShapeNode
-                                                                       self.addChild(n)
-                                                                   })])))
-            #endif
-        }
-    }
-    
-    #if os(watchOS)
-    override func sceneDidLoad() {
-        self.setUpScene()
-    }
-    #else
     override func didMove(to view: SKView) {
-        self.setUpScene()
+        //このシーンが表示されるタイミングで処理が行われる
+        //主に初期化
+        print("[debug] didMove")
+        
+        //SkSpriteNode
+        self.mainCharNode.position = CGPoint(x: -150, y: view.frame.height / -2 + 250)
+        self.mainCharNode.size = CGSize(width: 300, height: 300)
+        self.addChild(self.mainCharNode)
+        self.backgroundColor = UIColor.white
+        
+        
+        self.gameOverLabel.text = "GameOver"
+        self.gameOverLabel.fontColor = UIColor.black
+        self.gameOverLabel.fontSize = 94
+        self.gameOverLabel.alpha = 0 //透明
+        self.addChild(self.gameOverLabel)
+        
+        self.addFish()
+        self.addCactus()
     }
-    #endif
-
-    func makeSpinny(at pos: CGPoint, color: SKColor) {
-        if let spinny = self.spinnyNode?.copy() as! SKShapeNode? {
-            spinny.position = pos
-            spinny.strokeColor = color
-            self.addChild(spinny)
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        //画面をタッチ開始した時に呼ばれる
+        let movePos = CGPoint(x: self.mainCharNode.position.x, y: self.mainCharNode.position.y + 250)
+        let jumpUpAction = SKAction.move(to: movePos, duration: 0.3)
+        jumpUpAction.timingMode = .easeInEaseOut
+        let jumpDownAction = SKAction.move(to: self.mainCharNode.position, duration: 0.7)
+        
+        
+        let jumpAction = SKAction.sequence([jumpUpAction, jumpDownAction])
+        self.mainCharNode.run(jumpAction)
+        
+        //gameover check
+        if self.isGameOver() == true {
+            self.gameOverLabel.alpha = 1
         }
     }
     
-    override func update(_ currentTime: TimeInterval) {
-        // Called before each frame is rendered
-    }
-}
-
-#if os(iOS) || os(tvOS)
-// Touch-based event handling
-extension GameScene {
-
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        if let label = self.label {
-            label.run(SKAction.init(named: "Pulse")!, withKey: "fadeInOut")
+    // Game Over Check
+    // true:gameover
+    // flase: stil ok
+    func isGameOver() -> Bool{
+        //screen pos 80% > char pos
+//        self.view!.frame.height //画面のサイズ　（高さ）
+        if self.mainCharNode.position.y > self.view!.frame.height / 2 - 150 {
+            return true
         }
         
-        for t in touches {
-            self.makeSpinny(at: t.location(in: self), color: SKColor.green)
-        }
+        return false
+    
     }
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-        for t in touches {
-            self.makeSpinny(at: t.location(in: self), color: SKColor.blue)
-        }
+        //タッチしている指が移動した時に呼ばれる
+        print("[debug] touchesMoved")
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        for t in touches {
-            self.makeSpinny(at: t.location(in: self), color: SKColor.red)
-        }
+        //画面から指が離れた時に呼ばれる
+        print("[debug] touchesEnded")
     }
     
     override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
-        for t in touches {
-            self.makeSpinny(at: t.location(in: self), color: SKColor.red)
+        //タッチ処理が継続できずに終了した時に呼び出される
+        //基本的に touchesEndedと同様の処理
+    }
+    override func update(_ currentTime: TimeInterval ){
+        // ゲームが60fpsで動作しているときに1秒間に60回呼び出される
+        // 負荷などの理由により必ず同じタイミングで呼び出されるわけではないのでcurrentTimeの差分だけ処理をする
+        
+        //当たり判定 魚
+        guard let fishNode = self.childNode(withName: "fish") else { return }
+        let fishNodes = self.nodes(at: fishNode.position)
+        //魚がいるかキャラと重なっているか
+        if fishNodes.count > 1{
+            self.gameOverLabel.alpha = 1
         }
-    }
-    
-   
-}
-#endif
-
-#if os(OSX)
-// Mouse-based event handling
-extension GameScene {
-
-    override func mouseDown(with event: NSEvent) {
-        if let label = self.label {
-            label.run(SKAction.init(named: "Pulse")!, withKey: "fadeInOut")
+        
+        //サボテン
+        guard let cactusNode = self.childNode(withName: "cactus") else { return }
+        let cactusNodes = self.nodes(at: cactusNode.position)
+        
+        if cactusNodes.count > 1 {
+            self.gameOverLabel.alpha = 1
         }
-        self.makeSpinny(at: event.location(in: self), color: SKColor.green)
+        
+        
     }
     
-    override func mouseDragged(with event: NSEvent) {
-        self.makeSpinny(at: event.location(in: self), color: SKColor.blue)
+    func addFish(){
+        
+        let fish = SKSpriteNode(imageNamed: "sakana.png")
+        let yPos = CGFloat(Int.random(in: 0 ..< Int(self.view!.frame.height))) - self.view!.frame.height / 2
+        
+        fish.name = "fish"
+        fish.position = CGPoint(
+            x: self.view!.frame.width / 2 + 80,
+            y: yPos
+        )
+        self.addChild(fish)
+        let moveActionFish = SKAction.moveTo(x: self.view!.frame.width * -1, duration: 4)
+        fish.run(
+            SKAction.sequence([moveActionFish, SKAction.removeFromParent()])
+        )
+        
+        
+        let fishAttack = SKAction.run{
+            self.addFish()
+        }
+        let newFishAction = SKAction.sequence([SKAction.wait(forDuration: 4), fishAttack])
+        self.run(newFishAction)
+        
     }
     
-    override func mouseUp(with event: NSEvent) {
-        self.makeSpinny(at: event.location(in: self), color: SKColor.red)
+    func addCactus(){
+        
+        let cactus = SKSpriteNode(imageNamed: "sabo.png")
+        
+        cactus.name = "cactus"
+        cactus.position = CGPoint(
+            x: self.view!.frame.width / 2 + 80,
+            y: self.view!.frame.height / -2 + 190
+        )
+        self.addChild(cactus)
+        let moveActionCactus = SKAction.moveTo(x: self.view!.frame.width * -1, duration: 3)
+        cactus.run(
+            SKAction.sequence([moveActionCactus, SKAction.removeFromParent()])
+        )
+        
+        let cactusAttack = SKAction.run{
+            self.addCactus()
+        }
+        let newCactusAction = SKAction.sequence([SKAction.wait(forDuration: 3), cactusAttack])
+        self.run(newCactusAction)
     }
-
 }
-#endif
 
